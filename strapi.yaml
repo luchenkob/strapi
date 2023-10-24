@@ -1,0 +1,22 @@
+namespace: strapi
+strapi:
+  defines: runnable
+  metadata:
+    name: strapi
+    description: >-
+      Strapi is an open-source, headless CMS written in JavaScript. It allows
+      developers to build APIs quickly and easily for websites, mobile
+      applications, and other digital products.
+    icon: https://strapi.io/assets/strapi-logo-dark.svg
+  containers:
+    strapi:
+      build: .
+      dockerfile: generate
+  variables:
+    jwt-secret:
+      env: JWT_SECRET
+      type: string
+      description: >-
+        Secret key that is used to sign and validate JSON web tokens (JWT) for
+        authentication
+      value: '!!!SETME!!!'
