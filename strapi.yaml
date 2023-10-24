@@ -4,19 +4,25 @@ strapi:
   metadata:
     name: strapi
     description: >-
-      Strapi is an open-source, headless CMS written in JavaScript. It allows
-      developers to build APIs quickly and easily for websites, mobile
-      applications, and other digital products.
-    icon: https://strapi.io/assets/strapi-logo-dark.svg
+      Strapi is a flexible, open-source Headless CMS that gives developers the
+      freedom to choose their favorite tools and frameworks while also allowing
+      editors to easily manage and distribute their content.
+    icon: https://emojiapi.dev/api/v1/memo.svg
   containers:
     strapi:
       build: .
-      dockerfile: generate
+      dockerfile: Dockerfile
+  services:
+    strapi:
+      container: strapi
+      port: 1337
+      host-port: 1337
+      publish: false
+      protocol: TCP
+      description: Main port that the strapi application exposes
   variables:
-    jwt-secret:
-      env: JWT_SECRET
+    node-env:
+      env: NODE_ENV
       type: string
-      description: >-
-        Secret key that is used to sign and validate JSON web tokens (JWT) for
-        authentication
-      value: '!!!SETME!!!'
+      description: Node.js runtime environment
+      value: development
