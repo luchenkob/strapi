@@ -1,0 +1,65 @@
+namespace: strapi
+strapi:
+  defines: runnable
+  metadata:
+    name: strapi
+    description: >-
+      A highly customizable, open-source Headless CMS that enables developers to
+      have a powerful API with a flexible content architecture and powerful
+      management dashboard.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    strapi:
+      build: .
+      dockerfile: Dockerfile
+  services:
+    postgres:
+      container: strapi
+      port: 5432
+      host-port: 5432
+      publish: false
+      protocol: TCP
+      description: PostgreSQL Database
+    mysql:
+      container: strapi
+      port: 3306
+      host-port: 3306
+      publish: false
+      protocol: TCP
+      description: MySQL Database
+  connections:
+    postgres-connection:
+      target: strapi/db
+      service: postgres
+    mysql-connection:
+      target: strapi/db
+      service: monk-mysql-db
+  variables:
+    postgres-user:
+      env: POSTGRES_USER
+      type: string
+      description: username for the PostgreSQL database
+      value: <- connection-hostname("postgres-connection")
+    postgres-password:
+      env: POSTGRES_PASSWORD
+      type: string
+      description: password for the PostgreSQL database
+      value: '!!!SETME-USE-SECRETS!!!'
+    mysql-user:
+      env: MYSQL_USER
+      type: string
+      description: username for the MySQL database
+      value: <- connection-hostname("mysql-connection")
+    mysql-password:
+      env: MYSQL_PASSWORD
+      type: string
+      description: password for the MySQL database
+      value: '!!!SETME-USE-SECRETS!!!'
+db:
+  defines: runnable
+  inherits: monk-mysql/db
+stack:
+  defines: group
+  members:
+    - strapi/strapi
+    - strapi/db
